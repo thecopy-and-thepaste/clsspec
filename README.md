@@ -1,7 +1,5 @@
 # Readme
 
-Created: Feb 4, 2021 4:25 PM
-
 # clsspec
 
 ## Overview
