@@ -1,0 +1,13 @@
+version: '2'
+
+services: 
+  ml_text:
+    container_name: clsspec
+    build: 
+      context: conabio_ml_text/images/tf2
+    ports:
+      - 8888:8888
+    volumes:
+      - ./code:/lib/code_environment/code
+    entrypoint: jupyter notebook --ip=0.0.0.0 --allow-root
+    tty: true
