@@ -8,7 +8,7 @@ Note that is based in the `layer_config` config json.
 # -*- coding: utf-8 -*-
 
 from tensorflow.keras import Model
-from tensorflow.keras.layers import Dense, LSTM, Input, Embedding, GlobalMaxPooling1D
+from tensorflow.keras.layers import Dense, LSTM, Input, Embedding, Dropout
 
 from conabio_ml_text.trainers.bcknds.tfkeras_models import TFKerasRawDataModel
 from conabio_ml_text.trainers.bcknds.tfkeras import TFKerasBaseModel
@@ -30,17 +30,12 @@ class LSTMModel(TFKerasRawDataModel):
             lstm_1 = layers["lstm"]
             dense = layers["dense"]
 
-            print ("Updated vocab")
-            print ("_________________")
-            print (embedding)
-
             i = Input(shape=(input_layer["T"], ))
             x = Embedding(input_dim=embedding["V"],
                           output_dim=embedding["D"])(i)
-            x = LSTM(units=lstm_1["M"],
-                     return_sequences=True)(x)
+            x = LSTM(units=lstm_1["M"])(x)
+            x = Dropout(lstm_1["dropout"])(x)
 
-            x = GlobalMaxPooling1D()(x)
             x = Dense(units=dense["K"],
                       activation="softmax")(x) # Because we convert samples to one-hot
             
