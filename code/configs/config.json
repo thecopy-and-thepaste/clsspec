@@ -2,23 +2,25 @@
     "dataset": "code/dataset/dataset.csv",
     "layers": {
         "input": {
-            "T": 49
+            "T": 46
         },
         "embedding": {
-            "V": 11660,
-            "D": 100
+            "V": 1575,
+            "D": 200
         },
         "lstm": {
-            "M": 20
+            "M": 48,
+            "dropout": 0.6,
+            "recurrent_dropout": 0.6
         },
         "dense": {
             "K": 2
         }
     },
     "params": {
-        "initial_learning_rate": 0.0001,
-        "decay_steps": 200,
+        "initial_learning_rate": 0.0002,
+        "decay_steps": 5000,
         "batch_size": 16,
-        "epochs": 1
+        "epochs": 4
     }
 }

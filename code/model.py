@@ -17,6 +17,7 @@ from conabio_ml.utils.logger import get_logger
 
 log = get_logger(__name__)
 
+
 class LSTMModel(TFKerasRawDataModel):
 
     @classmethod
@@ -33,12 +34,12 @@ class LSTMModel(TFKerasRawDataModel):
             i = Input(shape=(input_layer["T"], ))
             x = Embedding(input_dim=embedding["V"],
                           output_dim=embedding["D"])(i)
-            x = LSTM(units=lstm_1["M"])(x)
+            x = LSTM(units=lstm_1["M"],
+                     recurrent_dropout=lstm_1["recurrent_dropout"])(x)
             x = Dropout(lstm_1["dropout"])(x)
 
             x = Dense(units=dense["K"],
-                      activation="softmax")(x) # Because we convert samples to one-hot
-            
+                      activation="softmax")(x)  # Because we convert samples to one-hot
 
             model = Model(i, x)
 
