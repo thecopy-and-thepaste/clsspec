@@ -179,35 +179,6 @@ def run(config_file: str):
                                  "epochs": epochs,
                                  "metrics": ["accuracy"]
                              }}
-                     })\
-        .add_process(name="predict_classifier",
-                     action=LSTMModel.predict,
-                     inputs_from_processes=["train_classifier",
-                                            "report_vocab"],
-                     reportable=True,
-                     args={
-                         "execution_config": None,
-                         "prediction_config": {
-                             #  "pred_converter_fn": multilabel_converter(multilabel_th),
-                             "sparse_predictions": False,
-                             "ommit_uniques": True
-                         }
-                     })\
-        .add_process(name="evaluate",
-                     action=Evaluator.eval,
-                     inputs_from_processes=["transform_to_datagen",
-                                            "predict_classifier"],
-                     reportable=True,
-                     args={
-                         "eval_config": {
-                             "dataset_partition": Partitions.TEST,
-                             "metrics_set": {
-                                 Metrics.Sets.MULTICLASS: {
-                                     'per_class': True,
-                                     'average': 'macro',
-                                     "zero_division": 1.0
-                                 }
-                             }}
                      })
 
     pipeline.run(report_pipeline=False)
@@ -226,6 +197,6 @@ if __name__ == "__main__":
                         help="Config file")
 
     ARGS = parser.parse_args()
-    debugger.create(ARGS.debug, True)
+    debugger.create(ARGS.debug)
 
     run(ARGS.config)
